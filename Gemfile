@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'rethinkdb'
+gem 'sinatra'
+gem 'faye'
+gem 'faye-websocket'
+gem 'thin'
+gem 'eventmachine'

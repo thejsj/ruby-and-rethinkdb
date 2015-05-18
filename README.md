@@ -24,3 +24,6 @@ In order to install React and all tools needed to compile our JavaScript code, u
 npm install
 npm run build
 ```
+## Credit
+
+Most code taken from [segphault's slide deck on our Ruby Driver](https://speakerdeck.com/segphault/using-rethinkdb-with-tornado-and-eventmachine).

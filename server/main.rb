@@ -3,16 +3,9 @@ require 'bundler/setup'
 
 require 'rethinkdb'
 require 'eventmachine'
-require 'faye'
-require 'faye/websocket'
 require 'sinatra'
 
 include RethinkDB::Shortcuts
-Faye::WebSocket.load_adapter "thin"
-
-class Faye::Server
-  def scheme; end
-end
 
 EM.run do
 
@@ -55,19 +48,11 @@ EM.run do
     end
   end
 
-  # Add Faye
-  App = Faye::RackAdapter.new MessageApp, mount: "/faye"
-
   # Changefeed listener
   r.table("messages").changes.em_run(Conn) do |err, change|
-    App.get_client.publish('/messages/new', change["new_val"])
+    puts change
   end
 
-  # Send all messages at the beginning
-  App.get_client.subscribe "/messages/add" do |m|
-    r.table("messages").insert(m).run(Conn)
-  end
-
-  Rack::Server.start app: App, Port: 8000
+  Rack::Server.start app: MessageApp, Port: 8000
 end
 

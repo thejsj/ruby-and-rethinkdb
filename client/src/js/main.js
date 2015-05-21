@@ -20,13 +20,12 @@ $(document).ready(function () {
     );
   };
 
-  faye.subscribe('/messages/new', function (message) {
+  faye.subscribe('/message/new', function (message) {
     messageCollection.push(message);
     render();
   });
 
-  console.log('Get messages', $);
-  $.get('/messages', function (data) {
+  $.get('/message', function (data) {
     data = JSON.parse(data);
     messageCollection = messageCollection.concat(data);
    render();

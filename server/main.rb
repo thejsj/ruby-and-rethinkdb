@@ -43,7 +43,7 @@ EM.run do
 
     get "/" do; redirect "/index.html"; end
 
-    get '/messages' do
+    get "/message" do
       r
         .table("messages")
         .order_by({ index: "created" })
@@ -52,6 +52,16 @@ EM.run do
         .to_json
     end
 
+    post "/message" do
+      r
+        .table("messages")
+        .insert({
+          userName: params["userName"],
+          message: params["message"],
+        })
+        .run(Conn)
+   end
+
   end
 
   # Add Faye
@@ -59,11 +69,11 @@ EM.run do
 
   # Changefeed listener
   r.table("messages").changes.em_run(Conn) do |err, change|
-    App.get_client.publish('/messages/new', change["new_val"])
+    App.get_client.publish('/message/new', change["new_val"])
   end
 
   # Send all messages at the beginning
-  App.get_client.subscribe "/messages/add" do |m|
+  App.get_client.subscribe "/message/add" do |m|
     r.table("messages").insert(m).run(Conn)
   end
 

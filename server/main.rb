@@ -41,9 +41,7 @@ EM.run do
       set :threaded, true
     end
 
-    get "/" do
-      redirect "/index.html"
-    end
+    get "/" do; redirect "/index.html"; end
 
     get '/messages' do
       r
@@ -53,6 +51,7 @@ EM.run do
         .run(Conn)
         .to_json
     end
+
   end
 
   # Add Faye
@@ -69,5 +68,5 @@ EM.run do
   end
 
   Rack::Server.start app: App, Port: 8000
-end
 
+end

@@ -11,7 +11,7 @@ var NewMessageFormView = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     var text = this.state.value;
-    this.props.faye.publish('/message/add', {
+    $.post("/message", {
       message: text,
       userName: this.props.userName,
       created: (new Date()).getTime()

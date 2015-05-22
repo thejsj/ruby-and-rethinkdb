@@ -33,4 +33,18 @@ $chat-box-height: 40px;
     height: calc(100vh - #{$chat-box-height});
     overflow-y: scroll;
   }
+
+}
+
+.interval-picker {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  margin: 2px;
+  border: solid 1px #aaa;
+  border-radius: 3px;
+  p {
+    margin-bottom: 3px;
+  }
 }

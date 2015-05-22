@@ -1,9 +1,11 @@
 /*global io:true, $:true, console:true */
 'use strict';
 var React = require('react');
+var MessageCollection = require('./message-collection');
 
 var faye = new Faye.Client('http://localhost:8000/faye');
-var messageCollection = [];
+var messageCollection = new MessageCollection();
+window.messages = messageCollection;
 var ChatView = require('./views/chat-view');
 
 var userName = prompt('Pick a username');
@@ -20,16 +22,21 @@ $(document).ready(function () {
     );
   };
 
-  faye.subscribe('/message/new', function (message) {
-    messageCollection.push(message);
-    render();
-  });
+  var getMessages = function () {
+    return $.get('/message', function (data) {
+      data = JSON.parse(data);
+      data.forEach(messageCollection.append.bind(messageCollection));
+      render();
+    });
+  };
 
-  $.get('/message', function (data) {
-    data = JSON.parse(data);
-    messageCollection = messageCollection.concat(data);
-   render();
-  });
-
-})
+  window.interval = 100;
+  var getMessagesInterval = function () {
+    getMessages()
+    .done(function () {
+      setTimeout(getMessagesInterval, window.interval);
+    });
+  };
+  getMessagesInterval();
+});
 

@@ -12,9 +12,9 @@ var MessageCollectionView = React.createClass({
     });
     return (
       <div className='message-collection-container'>
-        {messageCollection.map(function(item, i) {
+        {messageCollection.toArray().map(function(item, i) {
           return (
-            <div className='message'>
+            <div key={ item.id }className='message'>
               <div className='message-body'>
                 <p><a href="#">{ item.userName }</a>: { item.message }</p>
               </div>

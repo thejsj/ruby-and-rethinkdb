@@ -63,4 +63,4 @@ gulp.task('watch', ['browserify'], function () {
   gulp.watch('./client/src/js/**/*.js', ['watchify']);
 });
 
-gulp.task('default', ['browserify' ]);
+gulp.task('default', ['browserify', 'sass']);
